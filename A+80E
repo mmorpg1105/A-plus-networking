@@ -1,7 +1,7 @@
 !TASK1: COLLAPSED BACKBONE: BASIC LAYER3 CONFIGURATION.
 !@@@CORE SWITCH SA TAAS ( LINE 3 to 33 PASTE TO COREtaas SWITCH )
 config t
-   hostname COREtaas-~~
+   hostname COREtaas-52
    enable secret pass
    service password-encryption
    no logging console
@@ -16,26 +16,26 @@ config t
       exec-timeout 0 0
    Int Vlan 1
      no shutdown
-	 ip add 10.~~.1.2 255.255.255.0
+	 ip add 10.52.1.2 255.255.255.0
 	 description MGMTDATA
    Int Vlan 10
      no shutdown
-	 ip add 10.~~.10.2 255.255.255.0
+	 ip add 10.52.10.2 255.255.255.0
 	 description WIRELESS
    Int Vlan 50
      no shutdown
-	 ip add 10.~~.50.2 255.255.255.0
+	 ip add 10.52.50.2 255.255.255.0
 	 description IPCCTV
    Int Vlan 100
      no shutdown
-	 ip add 10.~~.100.2 255.255.255.0
+	 ip add 10.52.100.2 255.255.255.0
 	 description VOICEVLAN
 end
 
 !( LINE 37 to 71 PASTE TO COREBABA SWITCH )
 !@@@LeafSwitchONLY
 config t
-   hostname COREbaba-~~
+   hostname COREbaba-52
    enable secret pass
    service password-encryption
    no logging console
@@ -51,22 +51,22 @@ config t
    Int Gi 0/1
      no shutdown
 	  no switchport
-	  ip add 10.~~.~~.4 255.255.255.0
+	  ip add 10.52.52.4 255.255.255.0
    Int Vlan 1
      no shutdown
-	 ip add 10.~~.1.4 255.255.255.0
+	 ip add 10.52.1.4 255.255.255.0
 	 description MGMTDATA
    Int Vlan 10
      no shutdown
-	 ip add 10.~~.10.4 255.255.255.0
+	 ip add 10.52.10.4 255.255.255.0
 	 description WIRELESS
    Int Vlan 50
      no shutdown
-	 ip add 10.~~.50.4 255.255.255.0
+	 ip add 10.52.50.4 255.255.255.0
 	 description IPCCTV
    Int Vlan 100
      no shutdown
-	 ip add 10.~~.100.4 255.255.255.0
+	 ip add 10.52.100.4 255.255.255.0
 	 description VOICEVLAN
 end
 
@@ -86,7 +86,7 @@ CCNPSkillsNow: Etherchannel with LinkAggregationControlProtocol:
 WARNING: THREE CABLES IS BETTER THAN ONE!
 @taas/BABA: (Line 88- 94 Paste on COREtaas & COREbaba)
 config t
-Int Range fa0/10-~~
+Int Range fa0/10-52
  channel-group 1 mode active
  channel-protocol Lacp
  do sh etherchannel summary
@@ -94,36 +94,36 @@ Int Range fa0/10-~~
 sh int po1 | inc BW
 
 !DHCP: DYNAMIC HOST CONFIGURATION PROTOCOL
-!@@@LEAF SWITCH (Line 98-~~4 Paste on COREbaba)
+!@@@LEAF SWITCH (Line 98-524 Paste on COREbaba)
 config t
-ip dhcp Excluded-add 10.~~.1.1 10.~~.1.100
-ip dhcp Excluded-add 10.~~.10.1 10.~~.10.100
-ip dhcp Excluded-add 10.~~.50.1 10.~~.50.100
-ip dhcp Excluded-add 10.~~.100.1 10.~~.100.100
+ip dhcp Excluded-add 10.52.1.1 10.52.1.100
+ip dhcp Excluded-add 10.52.10.1 10.52.10.100
+ip dhcp Excluded-add 10.52.50.1 10.52.50.100
+ip dhcp Excluded-add 10.52.100.1 10.52.100.100
 ip dhcp pool MGMTDATA
-   network 10.~~.1.0 255.255.255.0
-   default-router 10.~~.1.4
+   network 10.52.1.0 255.255.255.0
+   default-router 10.52.1.4
    domain-name MGMTDATA.COM
-   dns-server 10.~~.1.10
+   dns-server 10.52.1.10
 ip dhcp pool WIFIDATA
-   network 10.~~.10.0 255.255.255.0
-   default-router 10.~~.10.4
+   network 10.52.10.0 255.255.255.0
+   default-router 10.52.10.4
    domain-name WIFIDATA.COM
-   dns-server 10.~~.1.10
+   dns-server 10.52.1.10
 ip dhcp pool IPCCTV
-   network 10.~~.50.0 255.255.255.0
-   default-router 10.~~.50.4
+   network 10.52.50.0 255.255.255.0
+   default-router 10.52.50.4
    domain-name IPCCTV.COM
-   dns-server 10.~~.1.10
+   dns-server 10.52.1.10
 ip dhcp pool VOICEVLAN
-   network 10.~~.100.0 255.255.255.0
-   default-router 10.~~.100.4
+   network 10.52.100.0 255.255.255.0
+   default-router 10.52.100.4
    domain-name VOICEVLAN.COM
-   dns-server 10.~~.1.10
-   option 150 ip 10.~~.100.8
+   dns-server 10.52.1.10
+   option 150 ip 10.52.100.8
    END
 
-!!CREATING AND PLACING PORTS INSIDEAVLAN: (Line ~~7-165 Paste on COREbaba)
+!!CREATING AND PLACING PORTS INSIDEAVLAN: (Line 527-165 Paste on COREbaba)
 config t
 vlan 10
    name WIFIVLAN
@@ -168,10 +168,10 @@ Int Fa 0/7
 config t
 ip routing
 ip dhcp pool CAMERA6
-host 10.~~.50.6 255.255.255.0
+host 10.52.50.6 255.255.255.0
 client-identifier 001a.070a.c334
 ip dhcp pool CAMERA8
-host 10.~~.50.8 255.255.255.0
+host 10.52.50.8 255.255.255.0
 client-identifier 001a.0708.6f17
 end
 show ip dhcp binding
@@ -179,7 +179,7 @@ show ip dhcp binding
 !TASK2***TASK2***TASK2***
 !@@@CME ROUTE CONFIG (Call Manager Express) ( Line 181-199 Paste on CME)
 config t
-   hostname CME-~~
+   hostname CME-52
    enable secret pass
    service password-encryption
    no logging console
@@ -194,7 +194,7 @@ config t
       exec-timeout 0 0
    Int Gi 0/0/0
      description CME
-     ip add 10.~~.100.8 255.255.255.0
+     ip add 10.52.100.8 255.255.255.0
 	 no shutdown
  end
  
@@ -214,74 +214,74 @@ sip
 voice register global
  mode cme
  no auto-register
- source-address 10.~~.100.8 port 5060
+ source-address 10.52.100.8 port 5060
  max-dn 20
  max-pool 20
  authenticate register
  create profile
 !
 voice register dn 1
- number ~~11
- name ~~11
+ number 5211
+ name 5211
  allow watch
 voice register dn 2
- number ~~22
- name ~~22
+ number 5222
+ name 5222
  allow watch
 voice register dn 3
- number ~~33
- name ~~33
+ number 5233
+ name 5233
  allow watch
 voice register dn 4
- number ~~44
- name ~~44
+ number 5244
+ name 5244
  allow watch
 voice register dn 5
- number ~~55
- name ~~55
+ number 5255
+ name 5255
  allow watch
 voice register dn 6
- number ~~66
- name ~~66
+ number 5266
+ name 5266
  allow watch
 voice register dn 7
- number ~~77
- name ~~77
+ number 5277
+ name 5277
  allow watch
 voice register dn 8
- number ~~88
- name ~~88
+ number 5288
+ name 5288
  allow watch
 voice register dn 9
- number ~~99
- name ~~99
+ number 5205
+ name 5205
  allow watch
 voice register dn 10
- number ~~67
- name ~~67
+ number 5211
+ name 5211
  allow watch
 !
 voice register pool 1
- id mac 00bc.60bf.47c6
+ id mac dcf7.19d8.9e90
  number 1 dn 1
  number 2 dn 2
  number 3 dn 3
  number 4 dn 4
  number 5 dn 5
  dtmf-relay sip-notify
- username ~~Passa password ~~Passa
+ username 52Passa password 52Passa
  codec g711ulaw
  type 8851
 !
 voice register pool 2
- id mac dcf7.19d9.b574
+ id mac c4c6.03f1.3c64
  number 1 dn 6
  number 2 dn 8
  number 3 dn 9
  number 4 dn 7
  number 5 dn 10
  dtmf-relay sip-notify
- username ~~Passb password ~~Passb
+ username 52Passb password 52Passb
  codec g711ulaw
  type 8851
 end
@@ -335,16 +335,16 @@ conf t
   codec g711ULAW
  dial-peer voice 42 Voip
   destination-pattern 42..
-  session target ipv4:10.~~.100.8
+  session target ipv4:10.52.100.8
   codec g711ULAW
  dial-peer voice 51 Voip
   destination-pattern 51..
   session target ipv4:10.51.100.8
   codec g711ULAW
- dial-peer voice 52 Voip
-  destination-pattern 52..
-  session target ipv4:10.52.100.8
-  codec g711ULAW
+ !dial-peer voice 52 Voip
+  !destination-pattern 52..
+  !session target ipv4:10.52.100.8
+  !codec g711ULAW
  dial-peer voice 61 Voip
   destination-pattern 61..
   session target ipv4:10.61.100.8
@@ -383,16 +383,16 @@ conf t
 !@CME: (Call Manager Express) 
 config t
 router ospf 1
-router-id 10.~~.100.8
-network 10.~~.100.0  0.0.0.255  area 0
+router-id 10.52.100.8
+network 10.52.100.0  0.0.0.255  area 0
 end
 
 !OSPF on COREswitch ( Line 392-398 Paste on COREbaba )
 !@CoreBABA:
 config t
 router ospf 1
-router-id 10.~~.~~.4
-network 10.~~.0.0  0.0.255.255 area 0
+router-id 10.52.52.4
+network 10.52.0.0  0.0.255.255 area 0
 int gi 0/1
  ip ospf network point-to-point
 end
@@ -412,7 +412,7 @@ end
 config system interface
  edit wan1
   set mode static
-  set ip 200.0.0.~~ 255.255.255.0 
+  set ip 200.0.0.52 255.255.255.0 
   set allowaccess ping https ssh telnet
   set role wan
   set alias "INTERNET"
@@ -420,7 +420,7 @@ config system interface
   next
  edit port1
   set mode static
-  set ip 10.~~.~~.1 255.255.255.0
+  set ip 10.52.52.1 255.255.255.0
   set allowaccess ping https ssh telnet http
   set role lan
   set alias "INTERNAL"
@@ -429,7 +429,7 @@ config system interface
 edit loopback1
   set vdom root
   set mode static
-  set ip ~~.0.0.1 255.255.255.255
+  set ip 52.0.0.1 255.255.255.255
   set allowaccess ping
   set type loopback
   set status up
@@ -439,7 +439,7 @@ end
 TASK4***TASK4***TASK4*** ( FORTINET ROUTING 80E Configurations )
 !OSPF Routing on Fortinet ( Line 440-461 Paste on FORTINET 80E )
 config router ospf 
- set router-id ~~.0.0.1
+ set router-id 52.0.0.1
  set log-neighbour-changes enable
  config area
   edit 0.0.0.0
@@ -448,7 +448,7 @@ config router ospf
  config network
   edit 1
    set area 0.0.0.0
-   set prefix 10.~~.~~.0 255.255.255.0
+   set prefix 10.52.52.0 255.255.255.0
    next
   edit 2
    set area 0.0.0.0
@@ -456,7 +456,7 @@ config router ospf
    next
   edit 3
    set area 0.0.0.0
-   set prefix  ~~.0.0.1 255.255.255.255
+   set prefix  52.0.0.1 255.255.255.255
    end
  end
 
@@ -478,7 +478,7 @@ GRION: get router info ospf neighbor
 GRIRTA: get router info routing-table all
 GRIRTO: get router info routing-table ospf
 
-TASK4***TASK4***TASK4*** ( FORTINET FIREWALL POLICY 80E Configurations ) or via (GUI Configurations 10.~~.~~.1)
+TASK4***TASK4***TASK4*** ( FORTINET FIREWALL POLICY 80E Configurations ) or via (GUI Configurations 10.52.52.1)
 !Edit Firewall Policy to call other classmates on FIREWALL (Fortinet for 80E OUTGOING) Para makalabas ( Line 483-495 Paste kay FORTINET 80E ) 
 config firewall policy
  edit 1
