@@ -398,44 +398,6 @@ int gi 0/1
 end
 
 TASK3***TASK3***TASK3*** ( FORTINET 80E and 60E Configurations )
-!Set Switchports to L3  "PORT1 MUST BE PART OF LAN"  = VLAN1 ( Line 402-409 Paste on FORTINET 80E )
-config system virtual-switch
- edit lan
-  config port
-    delete port1
-    delete port2
-  end
- next
-end
-
-!Config Static IP Address for FORTINET 80E ( Line 410-435 Paste on FORTINET 80E )
-config system interface
- edit wan1
-  set mode static
-  set ip 200.0.0.~~ 255.255.255.0 
-  set allowaccess ping https ssh telnet
-  set role wan
-  set alias "INTERNET"
-  set status up
-  next
- edit port1
-  set mode static
-  set ip 10.~~.~~.1 255.255.255.0
-  set allowaccess ping https ssh telnet http
-  set role lan
-  set alias "INTERNAL"
-  set status up
-  next
-edit loopback1
-  set vdom root
-  set mode static
-  set ip ~~.0.0.1 255.255.255.255
-  set allowaccess ping
-  set type loopback
-  set status up
- end
-end
-
 !Some Fortinet use Internal/Port modes depending on the version of Fortinet you are using, this is for FORTINET 60E
 !Delete 1st the virtual-swtich to  L3  "INTERNA1 MUST BE PART OF LAN"  = VLAN1 ( Line 441-449 Paste on FORTINET 60E )
 config system virtual-switch
@@ -509,16 +471,6 @@ config ospf-interface
  end
 end
 
-!OSPF Routing Point-to-Point for Port 1 and up on Fortinet 80E (Dikit kay COREbaba) ( Line 513-520 Paste kay FORTINET 80E ) 
-config router ospf
-config ospf-interface
-  edit "port1"
-   set interface "port1"
-   set network-type point-to-point
-   next
- end
-end
-
 ! SHOW COMMANDS ON FORTINET, SHOW ROUTING TABLE & SHOW NEIGHBORS
 SFC: show full-configuration
 GSIP: get system interface physical
@@ -533,21 +485,6 @@ config firewall policy
  edit 1
  set name "VoIP-Allow"
  set srcintf "INTERNAL1"
- set dstintf "WAN1"
- set srcaddr "all"
- set dstaddr "all"
- set action accept
- set schedule "always"
- set service "ALL"
- set nat disable
- next
-end
-
-!Edit Firewall Policy to call other classmates on FIREWALL (Fortinet for 80E OUTGOING) Para makalabas ( Line 548-559 Paste kay FORTINET 80E ) 
-config firewall policy
- edit 1
- set name "VoIP-Allow"
- set srcintf "PORT1"
  set dstintf "WAN1"
  set srcaddr "all"
  set dstaddr "all"
